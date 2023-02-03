@@ -1,0 +1,5 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://palmetto_user:palmetto123@localhost:27017
+      database: mongodb
