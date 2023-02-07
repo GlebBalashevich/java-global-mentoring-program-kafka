@@ -1,0 +1,13 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://palmetto_user:palmetto123@localhost:27017
+      database: mongodb
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: localhost:9092
+
+server:
+  port: 8081

@@ -1,10 +1,12 @@
 package com.epam.client.dto;
 
-import com.epam.client.model.OrderStatus;
 import lombok.Data;
+
+import com.epam.client.model.OrderStatus;
 
 @Data
 public class OrderStatusDto {
 
     private OrderStatus orderStatus;
+
 }

@@ -2,6 +2,7 @@ package com.epam.client.dto.exception;
 
 import java.time.Instant;
 import java.util.List;
+
 import lombok.Builder;
 import lombok.Data;
 
@@ -28,5 +29,7 @@ public class BadRequestExceptionResponse {
         private String field;
 
         private String message;
+
     }
+
 }

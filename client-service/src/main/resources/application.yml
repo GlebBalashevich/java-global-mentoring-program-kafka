@@ -1,5 +1,25 @@
 spring:
   data:
     mongodb:
-      uri: mongodb://palmetto_user:palmetto123@localhost:27017
+      uri: mongodb://palmetto_user:palmetto123@mongodb:27017
       database: mongodb
+  cloud:
+    function:
+      definition: orderSender;notificationListener
+    stream:
+      kafka:
+        binder:
+          brokers: kafka:9091
+          autoCreateTopics: false
+      bindings:
+        orderSender-out-0:
+          destination: orders
+        notificationListener-in-0:
+          destination: notifications
+          consumer:
+            partitioned: true
+            instanceCount: 3
+          group: client-notification-in
+
+server:
+  port: 8080

@@ -1,0 +1,18 @@
+spring:
+  cloud:
+    function:
+      definition: notificationSender;notificationListener
+    stream:
+      kafka:
+        binder:
+          brokers: kafka:9091
+          autoCreateTopics: false
+      bindings:
+        notificationSender-out-0:
+          destination: notifications
+        notificationListener-in-0:
+          destination: notifications
+          group: courier-notification-in
+
+server:
+  port: 8080

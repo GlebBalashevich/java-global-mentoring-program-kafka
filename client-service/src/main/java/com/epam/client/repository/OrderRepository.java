@@ -1,8 +1,10 @@
 package com.epam.client.repository;
 
-import com.epam.client.model.Order;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;
 
+import com.epam.client.model.Order;
+
 @Repository
-public interface OrderRepository extends ReactiveMongoRepository<Order, String> {}
+public interface OrderRepository extends ReactiveMongoRepository<Order, String> {
+}

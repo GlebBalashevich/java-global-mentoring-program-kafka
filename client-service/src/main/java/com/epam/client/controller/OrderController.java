@@ -1,9 +1,5 @@
 package com.epam.client.controller;
 
-import com.epam.client.dto.OrderDto;
-import com.epam.client.dto.OrderStatusDto;
-import com.epam.client.dto.PlaceOrderRequestDto;
-import com.epam.client.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -16,6 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
+
+import com.epam.client.dto.OrderDto;
+import com.epam.client.dto.OrderStatusDto;
+import com.epam.client.dto.PlaceOrderRequestDto;
+import com.epam.client.service.OrderService;
 
 @Slf4j
 @RestController
@@ -37,4 +38,5 @@ public class OrderController {
         log.debug("Requested order status for order: {}", id);
         return orderService.retrieveOrderStatus(id);
     }
+
 }

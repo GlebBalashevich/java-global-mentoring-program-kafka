@@ -1,9 +1,7 @@
 package com.epam.client.controller.advice;
 
-import com.epam.client.dto.exception.BadRequestExceptionResponse;
-import com.epam.client.dto.exception.BaseExceptionResponse;
-import com.epam.client.exception.BaseException;
 import java.time.Instant;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,12 +11,15 @@ import org.springframework.web.bind.support.WebExchangeBindException;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.ServerWebInputException;
 
+import com.epam.client.dto.exception.BadRequestExceptionResponse;
+import com.epam.client.dto.exception.BaseExceptionResponse;
+import com.epam.client.exception.BaseException;
+
 @Slf4j
 @RestControllerAdvice
 public class ReactiveExceptionHandling {
 
-    private static final String INTERNAL_SERVER_ERROR_MESSAGE =
-            "Internal server error occurred, contact server administrator";
+    private static final String INTERNAL_SERVER_ERROR_MESSAGE = "Internal server error occurred, contact server administrator";
 
     private static final String BAD_REQUEST_MESSAGE = "Invalid request parameters";
 
@@ -92,4 +93,5 @@ public class ReactiveExceptionHandling {
                 .details(validationDetails)
                 .build();
     }
+
 }

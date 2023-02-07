@@ -1,0 +1,18 @@
+spring:
+  cloud:
+    function:
+      definition: notificationSender;orderListener
+    stream:
+      kafka:
+        binder:
+          brokers: kafka:9091
+          autoCreateTopics: false
+      bindings:
+        notificationSender-out-0:
+          destination: notifications
+        orderListener-in-0:
+          destination: orders
+          group: palmetto-order-in
+
+server:
+  port: 8080

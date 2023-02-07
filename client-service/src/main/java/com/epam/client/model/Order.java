@@ -1,6 +1,7 @@
 package com.epam.client.model;
 
 import java.util.List;
+
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -13,4 +14,5 @@ public class Order {
     private List<Pizza> pizzas;
 
     private OrderStatus status;
+
 }

@@ -12,8 +12,7 @@ public class Pizza {
     private Integer amount;
 
     public enum Size {
-        S,
-        L,
-        XL
+        S, L, XL
     }
+
 }

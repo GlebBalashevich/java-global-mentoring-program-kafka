@@ -5,7 +5,7 @@ plugins {
     checkstyle
     jacoco
     id("com.diffplug.spotless") version "6.7.2" apply false
-    id("org.springframework.boot") version "2.7.3" apply false
+    id("org.springframework.boot") version "3.0.2" apply false
     id("io.spring.dependency-management") version "1.1.0" apply false
 }
 
@@ -39,6 +39,9 @@ subprojects {
         implementation("org.springframework.boot:spring-boot-starter-webflux")
         implementation("org.springframework.boot:spring-boot-starter-validation")
 
+        //Spring Cloud
+        implementation("org.springframework.cloud:spring-cloud-stream-binder-kafka:4.0.1")
+
         //Test
         testImplementation("org.springframework.boot:spring-boot-starter-test")
         testImplementation("org.assertj:assertj-core:3.23.1")
@@ -46,19 +49,6 @@ subprojects {
         testImplementation("org.junit.jupiter:junit-jupiter-params:$junitVersion")
         testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
         testImplementation("org.mockito:mockito-core:4.10.0")
-    }
-
-    configure<SpotlessExtension> {
-        format("misc") {
-            target("*.md", ".gitignore")
-        }
-        java {
-            removeUnusedImports()
-            importOrderFile("$rootDir/gradle/spotless/.importorder")
-            targetExclude("*/generated/**/*.*")
-            trimTrailingWhitespace()
-            palantirJavaFormat()
-        }
     }
 
     configure<CheckstyleExtension> {
@@ -94,6 +84,20 @@ subprojects {
         }
     }
 
+    configure<SpotlessExtension> {
+        format("misc") {
+            target("*.md", ".gitignore")
+            commonFormat()
+        }
+        java {
+            commonFormat()
+            removeUnusedImports()
+            importOrderFile("$rootDir/gradle/spotless/.importorder")
+            eclipse().configFile("$rootDir/gradle/spotless/formatter.xml")
+            targetExclude("*/generated/**/*.*")
+        }
+    }
+
     tasks.compileJava{
         options.compilerArgs.plusAssign(listOf("-Xlint:unchecked", "-Xlint:deprecation"))
         dependsOn("spotlessApply")
@@ -104,5 +108,11 @@ subprojects {
         useJUnitPlatform()
     }
 
+}
+
+fun com.diffplug.gradle.spotless.FormatExtension.commonFormat() {
+    trimTrailingWhitespace()
+    indentWithSpaces()
+    endWithNewline()
 }
 
