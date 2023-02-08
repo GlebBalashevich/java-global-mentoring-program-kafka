@@ -14,7 +14,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Sinks;
 
-import com.epam.palmetto.dto.OrderStatusDto;
+import com.epam.api.dto.OrderStatusDto;
 import com.epam.palmetto.exception.PalmettoException;
 import com.epam.palmetto.util.ErrorCode;
 

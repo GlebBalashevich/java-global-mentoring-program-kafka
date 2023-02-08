@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
-import com.epam.courier.dto.OrderStatusDto;
+import com.epam.api.dto.OrderStatusDto;
 import com.epam.courier.service.CourierService;
 
 @Slf4j

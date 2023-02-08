@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
-import com.epam.palmetto.dto.OrderStatusDto;
+import com.epam.api.dto.OrderStatusDto;
 import com.epam.palmetto.service.PalmettoService;
 
 @Slf4j

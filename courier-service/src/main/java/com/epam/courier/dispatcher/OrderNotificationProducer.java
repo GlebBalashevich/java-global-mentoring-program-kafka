@@ -14,7 +14,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Sinks;
 
-import com.epam.courier.dto.OrderStatusDto;
+import com.epam.api.dto.OrderStatusDto;
 import com.epam.courier.exception.CourierException;
 import com.epam.courier.util.ErrorCode;
 

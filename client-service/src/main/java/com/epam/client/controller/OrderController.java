@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
-import com.epam.client.dto.OrderDto;
-import com.epam.client.dto.OrderStatusDto;
-import com.epam.client.dto.PlaceOrderRequestDto;
+import com.epam.api.dto.OrderDto;
+import com.epam.api.dto.OrderStatusDto;
+import com.epam.api.dto.PlaceOrderRequestDto;
 import com.epam.client.service.OrderService;
 
 @Slf4j

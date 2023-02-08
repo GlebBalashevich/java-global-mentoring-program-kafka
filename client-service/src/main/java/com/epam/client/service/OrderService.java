@@ -7,13 +7,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
+import com.epam.api.dto.OrderDto;
+import com.epam.api.dto.OrderStatusDto;
+import com.epam.api.dto.PlaceOrderRequestDto;
 import com.epam.client.dispatcher.OrderProducer;
-import com.epam.client.dto.OrderDto;
-import com.epam.client.dto.OrderStatusDto;
-import com.epam.client.dto.PlaceOrderRequestDto;
 import com.epam.client.exception.OrderException;
 import com.epam.client.mapper.OrderMapper;
-import com.epam.client.model.OrderStatus;
+import com.epam.client.model.Status;
 import com.epam.client.repository.OrderRepository;
 import com.epam.client.util.ErrorCode;
 
@@ -41,10 +41,10 @@ public class OrderService {
                 .switchIfEmpty(Mono.defer(() -> notFoundError(orderId)));
     }
 
-    public Mono<OrderDto> updateOrderStatus(String orderId, OrderStatus orderStatus) {
+    public Mono<OrderDto> updateOrderStatus(String orderId, OrderStatusDto orderStatus) {
         return orderRepository
                 .findById(orderId)
-                .doOnNext(order -> order.setStatus(orderStatus))
+                .doOnNext(order -> order.setStatus(Status.valueOf(orderStatus.getOrderStatus().name())))
                 .flatMap(orderRepository::save)
                 .map(orderMapper::toOrderDto)
                 .switchIfEmpty(Mono.defer(() -> notFoundError(orderId)));

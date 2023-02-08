@@ -6,10 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+import com.epam.api.dto.OrderStatusDto;
+import com.epam.api.dto.Status;
 import com.epam.palmetto.dispatcher.OrderNotificationProducer;
-import com.epam.palmetto.dto.OrderStatusDto;
 import com.epam.palmetto.exception.PalmettoException;
-import com.epam.palmetto.model.OrderStatus;
 import com.epam.palmetto.util.ErrorCode;
 
 @Slf4j
@@ -28,8 +28,8 @@ public class PalmettoService {
                         orderStatus -> log.info("Order: {} status updated: {}", orderId, orderStatus.getOrderStatus()));
     }
 
-    private void validateOrderStatus(OrderStatus orderStatus) {
-        if (orderStatus != OrderStatus.COOKING && orderStatus != OrderStatus.READY_FOR_DELIVERY) {
+    private void validateOrderStatus(Status orderStatus) {
+        if (orderStatus != Status.COOKING && orderStatus != Status.READY_FOR_DELIVERY) {
             log.error(String.format(ORDER_STATUS_ERROR_MESSAGE, orderStatus));
             throw new PalmettoException(String.format(ORDER_STATUS_ERROR_MESSAGE, orderStatus), HttpStatus.BAD_REQUEST,
                     ErrorCode.PALMETTO_BAD_REQUEST);

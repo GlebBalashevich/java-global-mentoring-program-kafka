@@ -1,10 +1,8 @@
-package com.epam.client.dto;
+package com.epam.api.dto;
 
 import java.util.List;
 
 import lombok.Data;
-
-import com.epam.client.model.OrderStatus;
 
 @Data
 public class OrderDto {
@@ -13,6 +11,6 @@ public class OrderDto {
 
     private List<PizzaDto> pizzas;
 
-    private OrderStatus status;
+    private Status status;
 
 }

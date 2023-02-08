@@ -1,4 +1,4 @@
-package com.epam.client.dto;
+package com.epam.api.dto;
 
 import java.util.List;
 

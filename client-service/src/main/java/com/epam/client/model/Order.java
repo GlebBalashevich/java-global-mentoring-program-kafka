@@ -13,6 +13,6 @@ public class Order {
 
     private List<Pizza> pizzas;
 
-    private OrderStatus status;
+    private Status status;
 
 }

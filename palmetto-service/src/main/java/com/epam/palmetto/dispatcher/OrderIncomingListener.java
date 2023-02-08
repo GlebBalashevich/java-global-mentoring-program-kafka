@@ -10,9 +10,9 @@ import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
-import com.epam.palmetto.dto.OrderDto;
-import com.epam.palmetto.dto.OrderStatusDto;
-import com.epam.palmetto.model.OrderStatus;
+import com.epam.api.dto.OrderDto;
+import com.epam.api.dto.OrderStatusDto;
+import com.epam.api.dto.Status;
 import com.epam.palmetto.service.PalmettoService;
 
 @Slf4j
@@ -29,7 +29,7 @@ public class OrderIncomingListener {
     @Bean
     public Consumer<Message<OrderDto>> orderListener() {
         return message -> {
-            if (message.getPayload().getStatus() == OrderStatus.CREATED) {
+            if (message.getPayload().getStatus() == Status.CREATED) {
                 takeOrderInProcessing(message).subscribe();
             }
         };
@@ -37,7 +37,7 @@ public class OrderIncomingListener {
 
     private Mono<OrderStatusDto> takeOrderInProcessing(Message<OrderDto> message) {
         final var correlationId = message.getHeaders().get(KafkaHeaders.CORRELATION_ID, String.class);
-        final var orderStatus = new OrderStatusDto(OrderStatus.COOKING);
+        final var orderStatus = new OrderStatusDto(Status.COOKING);
         log.info("Order: {} retrieved event", correlationId);
         return palmettoService.updateCookingOrderStatus(correlationId, orderStatus);
     }
