@@ -12,6 +12,9 @@ spring:
           destination: notifications
         notificationListener-in-0:
           destination: notifications
+          consumer:
+            partitioned: true
+            concurrency: 3
           group: courier-notification-in
 
 server:

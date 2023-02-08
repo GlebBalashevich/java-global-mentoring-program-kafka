@@ -1,4 +1,4 @@
-package com.epam.courier.dto.exception;
+package com.epam.error.dto;
 
 import java.time.Instant;
 

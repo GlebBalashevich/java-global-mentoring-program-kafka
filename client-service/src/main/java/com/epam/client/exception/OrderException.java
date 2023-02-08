@@ -1,5 +1,6 @@
 package com.epam.client.exception;
 
+import com.epam.error.exception.BaseException;
 import org.springframework.http.HttpStatus;
 
 public class OrderException extends BaseException {

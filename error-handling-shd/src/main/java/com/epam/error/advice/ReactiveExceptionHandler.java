@@ -1,4 +1,4 @@
-package com.epam.client.controller.advice;
+package com.epam.error.advice;
 
 import java.time.Instant;
 
@@ -11,13 +11,13 @@ import org.springframework.web.bind.support.WebExchangeBindException;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.ServerWebInputException;
 
-import com.epam.client.dto.exception.BadRequestExceptionResponse;
-import com.epam.client.dto.exception.BaseExceptionResponse;
-import com.epam.client.exception.BaseException;
+import com.epam.error.dto.BadRequestExceptionResponse;
+import com.epam.error.dto.BaseExceptionResponse;
+import com.epam.error.exception.BaseException;
 
 @Slf4j
 @RestControllerAdvice
-public class ReactiveExceptionHandling {
+public class ReactiveExceptionHandler {
 
     private static final String INTERNAL_SERVER_ERROR_MESSAGE = "Internal server error occurred, contact server administrator";
 

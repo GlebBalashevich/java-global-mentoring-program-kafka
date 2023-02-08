@@ -22,12 +22,17 @@ public class OrderNotificationListener {
 
     private final CourierService courierService;
 
+    /*
+    Was made not as reactive b'cos reactive doesn't support multi consumers - "Concurrency > 1 is
+    not supported by reactive consumer, given that project reactor maintains its own concurrency mechanism"
+     */
     @Bean
-    public Consumer<Flux<Message<OrderStatusDto>>> notificationListener() {
-        return mono -> mono
-                .filter(message -> message.getPayload().getOrderStatus() == OrderStatus.READY_FOR_DELIVERY)
-                .flatMap(this::takeDeliveryOrder)
-                .subscribe();
+    public Consumer<Message<OrderStatusDto>> notificationListener() {
+        return message -> {
+            if (message.getPayload().getOrderStatus() == OrderStatus.READY_FOR_DELIVERY){
+                takeDeliveryOrder(message).subscribe();
+            }
+        };
     }
 
     private Mono<OrderStatusDto> takeDeliveryOrder(Message<OrderStatusDto> message) {

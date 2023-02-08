@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import com.epam.palmetto.dto.OrderDto;
@@ -23,12 +22,17 @@ public class OrderIncomingListener {
 
     private final PalmettoService palmettoService;
 
+    /*
+     * Was made not as reactive b'cos reactive doesn't support multi consumers - "Concurrency > 1 is not supported by
+     * reactive consumer, given that project reactor maintains its own concurrency mechanism"
+     */
     @Bean
-    public Consumer<Flux<Message<OrderDto>>> orderListener() {
-        return mono -> mono
-                .filter(message -> message.getPayload().getStatus() == OrderStatus.CREATED)
-                .flatMap(this::takeOrderInProcessing)
-                .subscribe();
+    public Consumer<Message<OrderDto>> orderListener() {
+        return message -> {
+            if (message.getPayload().getStatus() == OrderStatus.CREATED) {
+                takeOrderInProcessing(message).subscribe();
+            }
+        };
     }
 
     private Mono<OrderStatusDto> takeOrderInProcessing(Message<OrderDto> message) {

@@ -12,6 +12,9 @@ spring:
           destination: notifications
         orderListener-in-0:
           destination: orders
+          consumer:
+            partitioned: true
+            concurrency: 3
           group: palmetto-order-in
 
 server:

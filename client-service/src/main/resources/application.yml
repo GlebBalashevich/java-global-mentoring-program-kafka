@@ -18,7 +18,7 @@ spring:
           destination: notifications
           consumer:
             partitioned: true
-            instanceCount: 3
+            concurrency: 3
           group: client-notification-in
 
 server:
