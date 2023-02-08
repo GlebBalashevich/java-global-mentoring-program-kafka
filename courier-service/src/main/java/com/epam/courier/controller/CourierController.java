@@ -20,7 +20,7 @@ public class CourierController {
 
     private final CourierService courierService;
 
-    @PutMapping("/delivery/{id}")
+    @PutMapping("/{id}/delivery")
     public Mono<OrderStatusDto> updateOrderStatus(@PathVariable String id, @RequestBody OrderStatusDto orderStatusDto) {
         log.debug("Order: {} requested status updating: {}", id, orderStatusDto.getOrderStatus());
         return courierService.updateDeliveryOrderStatus(id, orderStatusDto);

@@ -20,7 +20,7 @@ public class PalmettoController {
 
     private final PalmettoService palmettoService;
 
-    @PutMapping("/cooking/{id}")
+    @PutMapping("/{id}/cooking")
     public Mono<OrderStatusDto> updateOrderStatus(@PathVariable String id, @RequestBody OrderStatusDto orderStatusDto) {
         log.debug("Order: {} requested status updating: {}", id, orderStatusDto.getOrderStatus());
         return palmettoService.updateCookingOrderStatus(id, orderStatusDto);

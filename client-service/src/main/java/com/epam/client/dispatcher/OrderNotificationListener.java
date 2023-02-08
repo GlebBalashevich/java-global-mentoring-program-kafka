@@ -1,10 +1,14 @@
 package com.epam.client.dispatcher;
 
+import java.nio.charset.StandardCharsets;
 import java.util.function.Consumer;
 
+import com.epam.client.exception.OrderException;
+import com.epam.client.util.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpStatus;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
@@ -36,10 +40,24 @@ public class OrderNotificationListener {
     }
 
     private Mono<OrderDto> updateOrderStatus(Message<OrderStatusDto> message) {
-        final var correlationId = message.getHeaders().get(KafkaHeaders.CORRELATION_ID, String.class);
+        final var correlationId = extractCorrelationId(message);
         log.info("Order: {} retrieved new notification event with status: {}", correlationId,
                 message.getPayload().getOrderStatus());
         return orderService.updateOrderStatus(correlationId, message.getPayload());
+    }
+
+    private String extractCorrelationId(Message<OrderStatusDto> message) {
+        final var correlationIdHeader = message.getHeaders().get(KafkaHeaders.CORRELATION_ID);
+        if (correlationIdHeader == null) {
+            log.error("Correlation id is null");
+            throw new OrderException("Correlation Id must not be null", HttpStatus.BAD_REQUEST,
+                    ErrorCode.ORDER_BAD_REQUEST);
+        }
+        if (correlationIdHeader instanceof String) {
+            return message.getHeaders().get(KafkaHeaders.CORRELATION_ID, String.class);
+        } else {
+            return new String((byte[]) correlationIdHeader, StandardCharsets.UTF_8);
+        }
     }
 
 }

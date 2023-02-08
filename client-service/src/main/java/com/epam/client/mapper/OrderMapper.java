@@ -1,7 +1,11 @@
 package com.epam.client.mapper;
 
+import java.util.UUID;
+
+import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 import com.epam.api.dto.OrderDto;
 import com.epam.api.dto.OrderStatusDto;
@@ -18,5 +22,10 @@ public interface OrderMapper {
     OrderDto toOrderDto(Order order);
 
     OrderStatusDto toOrderStatusDto(Status orderStatus);
+
+    @AfterMapping
+    default void fillOrderId(@MappingTarget Order order) {
+        order.setId(UUID.randomUUID().toString());
+    }
 
 }

@@ -9,4 +9,6 @@ public class ErrorCode {
 
     public static final String ORDER_SERVER_ERROR = "OSISE-0";
 
+    public static final String ORDER_BAD_REQUEST = "OSBRE-0";
+
 }

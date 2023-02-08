@@ -1,0 +1,18 @@
+spring:
+  cloud:
+    function:
+      definition: notificationSender;notificationListener
+    stream:
+      kafka:
+        binder:
+          brokers: localhost:9092
+          autoCreateTopics: false
+      bindings:
+        notificationSender-out-0:
+          destination: test-topic
+        notificationListener-in-0:
+          destination: test-topic
+          consumer:
+            partitioned: true
+            concurrency: 3
+          group: test-group-in
