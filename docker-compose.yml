@@ -1,6 +1,33 @@
 version: '3.1'
 
 services:
+  client-service:
+    container_name: client-service
+    restart: on-failure
+    build: ./client-service
+    depends_on:
+      - kafka
+      - mongodb
+    ports:
+      - "8081:8080"
+  courier-service:
+    container_name: courier-service
+    restart: on-failure
+    build: ./courier-service
+    depends_on:
+      - kafka
+      - mongodb
+    ports:
+      - "8082:8080"
+  palmetto-service:
+    container_name: palmetto-service
+    restart: on-failure
+    build: ./palmetto-service
+    depends_on:
+      - kafka
+      - mongodb
+    ports:
+      - "8083:8080"
   mongodb:
     container_name: mongo
     image: mongo

@@ -34,7 +34,7 @@ class PalmettoServiceTest {
     @Test
     void testUpdateCookingOrderStatus() {
         final var orderId = UUID.randomUUID().toString();
-        final var orderStatusDto = new OrderStatusDto(Status.DELIVERY_IN_PROGRESS);
+        final var orderStatusDto = new OrderStatusDto(Status.READY_FOR_DELIVERY);
 
         when(notificationHandler.sendNotification(orderId, orderStatusDto)).thenReturn(Mono.just(orderStatusDto));
 

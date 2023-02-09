@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import com.epam.api.dto.OrderStatusDto;
-import com.epam.api.dto.Status;
-import com.epam.courier.service.CourierService;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -31,6 +28,10 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.shaded.org.awaitility.Durations;
 import org.testcontainers.utility.DockerImageName;
+
+import com.epam.api.dto.OrderStatusDto;
+import com.epam.api.dto.Status;
+import com.epam.courier.service.CourierService;
 
 import static org.mockito.Mockito.verify;
 import static org.testcontainers.shaded.org.awaitility.Awaitility.await;

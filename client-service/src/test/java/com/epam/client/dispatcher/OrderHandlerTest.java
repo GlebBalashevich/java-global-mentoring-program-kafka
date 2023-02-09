@@ -14,6 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -83,7 +84,9 @@ class OrderHandlerTest {
 
         final var consumerRecords = kafkaConsumer.poll(Durations.TEN_SECONDS);
         final boolean contains = consumerRecords.records(new TopicPartition(TEST_TOPIC, 0)).stream()
-                .anyMatch(consumerRecord -> orderId.equals(consumerRecord.key())
+                .anyMatch(consumerRecord -> new String(
+                        consumerRecord.headers().lastHeader(KafkaHeaders.CORRELATION_ID).value()).equals(orderId)
+                        && orderId.equals(consumerRecord.key())
                         && orderDto.equals(consumerRecord.value()));
 
         assertTrue(contains);

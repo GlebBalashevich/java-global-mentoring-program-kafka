@@ -6,4 +6,13 @@ dependencies {
     implementation(project(":api-shd"))
 }
 
+tasks {
+    bootJar {
+        enabled = true
+    }
+    jar {
+        enabled = false
+    }
+}
+
 
