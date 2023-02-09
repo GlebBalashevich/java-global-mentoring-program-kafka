@@ -10,7 +10,7 @@ import reactor.core.publisher.Mono;
 import com.epam.api.dto.OrderDto;
 import com.epam.api.dto.OrderStatusDto;
 import com.epam.api.dto.PlaceOrderRequestDto;
-import com.epam.client.dispatcher.OrderProducer;
+import com.epam.client.dispatcher.OrderHandler;
 import com.epam.client.exception.OrderException;
 import com.epam.client.mapper.OrderMapper;
 import com.epam.client.model.Status;
@@ -24,14 +24,14 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
 
-    private final OrderProducer orderProducer;
+    private final OrderHandler orderHandler;
 
     private final OrderMapper orderMapper;
 
     @Transactional
     public Mono<OrderDto> placeOrder(PlaceOrderRequestDto orderRequestDto) {
         final var order = orderMapper.toOrder(orderRequestDto);
-        return orderRepository.save(order).map(orderMapper::toOrderDto).flatMap(orderProducer::sendOrder);
+        return orderRepository.save(order).map(orderMapper::toOrderDto).flatMap(orderHandler::sendOrder);
     }
 
     public Mono<OrderStatusDto> retrieveOrderStatus(String orderId) {

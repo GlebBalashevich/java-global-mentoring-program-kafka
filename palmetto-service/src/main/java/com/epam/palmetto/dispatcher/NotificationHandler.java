@@ -21,14 +21,14 @@ import com.epam.palmetto.util.ErrorCode;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class OrderNotificationProducer {
+public class NotificationHandler {
 
     private static final String PROCESSING_ERROR_MESSAGE = "Order: %s, updating order status was produced unsuccessfully";
 
     private final Sinks.Many<Message<OrderStatusDto>> processor = Sinks.many().multicast().onBackpressureBuffer();
 
     @Bean
-    public Supplier<Flux<Message<OrderStatusDto>>> notificationSender() {
+    public Supplier<Flux<Message<OrderStatusDto>>> notificationProducer() {
         return processor::asFlux;
     }
 

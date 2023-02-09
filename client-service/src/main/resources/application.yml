@@ -5,16 +5,16 @@ spring:
       database: mongodb
   cloud:
     function:
-      definition: orderSender;notificationListener
+      definition: orderProducer;notificationConsumer
     stream:
       kafka:
         binder:
           brokers: kafka:9091
           autoCreateTopics: false
       bindings:
-        orderSender-out-0:
+        orderProducer-out-0:
           destination: orders
-        notificationListener-in-0:
+        notificationConsumer-in-0:
           destination: notifications
           consumer:
             partitioned: true

@@ -2,13 +2,14 @@ spring:
   cloud:
     stream:
       kafka:
+        binder:
           autoCreateTopics: true
       bindings:
-        notificationProducer-out-0:
-          destination: test-notifications
+        orderProducer-out-0:
+          destination: test-orders
         notificationConsumer-in-0:
           destination: test-notifications
           consumer:
             partitioned: false
             concurrency: 1
-          group: test-group-in
+          group: test-notification-in

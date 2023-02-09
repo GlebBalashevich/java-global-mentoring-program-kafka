@@ -8,7 +8,7 @@ import reactor.core.publisher.Mono;
 
 import com.epam.api.dto.OrderStatusDto;
 import com.epam.api.dto.Status;
-import com.epam.courier.dispatcher.OrderNotificationProducer;
+import com.epam.courier.dispatcher.NotificationHandler;
 import com.epam.courier.exception.CourierException;
 import com.epam.courier.util.ErrorCode;
 
@@ -19,11 +19,11 @@ public class CourierService {
 
     private static final String ORDER_STATUS_ERROR_MESSAGE = "Wrong order status %s for delivery operation";
 
-    private final OrderNotificationProducer orderNotificationProducer;
+    private final NotificationHandler notificationHandler;
 
     public Mono<OrderStatusDto> updateDeliveryOrderStatus(String orderId, OrderStatusDto orderStatusDto) {
         validateOrderStatus(orderStatusDto.getOrderStatus());
-        return orderNotificationProducer.sendNotification(orderId, orderStatusDto)
+        return notificationHandler.sendNotification(orderId, orderStatusDto)
                 .doOnNext(orderStatus -> log.info("Order: {} status updated: {}", orderId,
                         orderStatusDto.getOrderStatus()));
     }

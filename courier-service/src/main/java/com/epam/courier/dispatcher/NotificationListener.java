@@ -21,7 +21,7 @@ import com.epam.courier.util.ErrorCode;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class OrderNotificationListener {
+public class NotificationListener {
 
     private final CourierService courierService;
 
@@ -30,7 +30,7 @@ public class OrderNotificationListener {
      * reactive consumer, given that project reactor maintains its own concurrency mechanism"
      */
     @Bean
-    public Consumer<Message<OrderStatusDto>> notificationListener() {
+    public Consumer<Message<OrderStatusDto>> notificationConsumer() {
         return message -> {
             if (message.getPayload().getOrderStatus() == Status.READY_FOR_DELIVERY) {
                 takeDeliveryOrder(message).subscribe();

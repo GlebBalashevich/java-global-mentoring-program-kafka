@@ -21,14 +21,14 @@ import com.epam.client.util.ErrorCode;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class OrderProducer {
+public class OrderHandler {
 
     private static final String PROCESSING_ERROR_MESSAGE = "Order: %s was produced unsuccessfully";
 
     private final Sinks.Many<Message<OrderDto>> processor = Sinks.many().multicast().onBackpressureBuffer();
 
     @Bean
-    public Supplier<Flux<Message<OrderDto>>> orderSender() {
+    public Supplier<Flux<Message<OrderDto>>> orderProducer() {
         return processor::asFlux;
     }
 

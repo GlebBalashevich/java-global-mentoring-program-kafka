@@ -1,10 +1,8 @@
-package com.epam.client.dispatcher;
+package com.epam.palmetto.dispatcher;
 
 import java.nio.charset.StandardCharsets;
 import java.util.function.Consumer;
 
-import com.epam.client.exception.OrderException;
-import com.epam.client.util.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -16,42 +14,44 @@ import reactor.core.publisher.Mono;
 
 import com.epam.api.dto.OrderDto;
 import com.epam.api.dto.OrderStatusDto;
-import com.epam.client.service.OrderService;
+import com.epam.api.dto.Status;
+import com.epam.palmetto.exception.PalmettoException;
+import com.epam.palmetto.service.PalmettoService;
+import com.epam.palmetto.util.ErrorCode;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class OrderNotificationListener {
+public class OrderListener {
 
-    private final OrderService orderService;
+    private final PalmettoService palmettoService;
 
     /*
      * Was made not as reactive b'cos reactive doesn't support multi consumers - "Concurrency > 1 is not supported by
      * reactive consumer, given that project reactor maintains its own concurrency mechanism"
      */
     @Bean
-    public Consumer<Message<OrderStatusDto>> notificationListener() {
+    public Consumer<Message<OrderDto>> orderConsumer() {
         return message -> {
-            final var orderDto = updateOrderStatus(message).block();
-            if (orderDto != null) {
-                log.info("Order: {} status was successfully updated", orderDto.getId());
+            if (message.getPayload().getStatus() == Status.CREATED) {
+                takeOrderInProcessing(message).subscribe();
             }
         };
     }
 
-    private Mono<OrderDto> updateOrderStatus(Message<OrderStatusDto> message) {
+    private Mono<OrderStatusDto> takeOrderInProcessing(Message<OrderDto> message) {
         final var correlationId = extractCorrelationId(message);
-        log.info("Order: {} retrieved new notification event with status: {}", correlationId,
-                message.getPayload().getOrderStatus());
-        return orderService.updateOrderStatus(correlationId, message.getPayload());
+        final var orderStatus = new OrderStatusDto(Status.COOKING);
+        log.info("Order: {} retrieved event", correlationId);
+        return palmettoService.updateCookingOrderStatus(correlationId, orderStatus);
     }
 
-    private String extractCorrelationId(Message<OrderStatusDto> message) {
+    private String extractCorrelationId(Message<OrderDto> message) {
         final var correlationIdHeader = message.getHeaders().get(KafkaHeaders.CORRELATION_ID);
         if (correlationIdHeader == null) {
             log.error("Correlation id is null");
-            throw new OrderException("Correlation Id must not be null", HttpStatus.BAD_REQUEST,
-                    ErrorCode.ORDER_BAD_REQUEST);
+            throw new PalmettoException("Correlation Id must not be null", HttpStatus.BAD_REQUEST,
+                    ErrorCode.PALMETTO_BAD_REQUEST);
         }
         if (correlationIdHeader instanceof String) {
             return message.getHeaders().get(KafkaHeaders.CORRELATION_ID, String.class);

@@ -1,16 +1,16 @@
 spring:
   cloud:
     function:
-      definition: notificationSender;notificationListener
+      definition: notificationProducer;notificationConsumer
     stream:
       kafka:
         binder:
           brokers: kafka:9091
           autoCreateTopics: false
       bindings:
-        notificationSender-out-0:
+        notificationProducer-out-0:
           destination: notifications
-        notificationListener-in-0:
+        notificationConsumer-in-0:
           destination: notifications
           consumer:
             partitioned: true

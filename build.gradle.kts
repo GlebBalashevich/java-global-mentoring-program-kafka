@@ -25,7 +25,6 @@ subprojects {
     }
 
     val mapstructVersion = "1.5.3.Final"
-    val junitVersion = "5.8.1"
     val lombokVersion = "1.18.24"
     val testContainersVersion = "1.17.6"
 
@@ -45,8 +44,10 @@ subprojects {
 
         //Test
         testImplementation("org.testcontainers:kafka:$testContainersVersion")
+        testImplementation("org.testcontainers:mongodb:$testContainersVersion")
         testImplementation("org.testcontainers:junit-jupiter:$testContainersVersion")
         testImplementation("org.testcontainers:testcontainers:$testContainersVersion")
+        testImplementation("io.projectreactor:reactor-test:3.2.3.RELEASE")
         testImplementation("org.springframework.boot:spring-boot-starter-test")
     }
 

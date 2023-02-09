@@ -8,7 +8,7 @@ import reactor.core.publisher.Mono;
 
 import com.epam.api.dto.OrderStatusDto;
 import com.epam.api.dto.Status;
-import com.epam.palmetto.dispatcher.OrderNotificationProducer;
+import com.epam.palmetto.dispatcher.NotificationHandler;
 import com.epam.palmetto.exception.PalmettoException;
 import com.epam.palmetto.util.ErrorCode;
 
@@ -19,11 +19,11 @@ public class PalmettoService {
 
     private static final String ORDER_STATUS_ERROR_MESSAGE = "Wrong order status %s for cooking operation";
 
-    private final OrderNotificationProducer orderNotificationProducer;
+    private final NotificationHandler notificationHandler;
 
     public Mono<OrderStatusDto> updateCookingOrderStatus(String orderId, OrderStatusDto orderStatusDto) {
         validateOrderStatus(orderStatusDto.getOrderStatus());
-        return orderNotificationProducer.sendNotification(orderId, orderStatusDto)
+        return notificationHandler.sendNotification(orderId, orderStatusDto)
                 .doOnNext(
                         orderStatus -> log.info("Order: {} status updated: {}", orderId, orderStatus.getOrderStatus()));
     }
