@@ -7,6 +7,12 @@ spring:
         binder:
           brokers: kafka:9091
           autoCreateTopics: false
+        bindings:
+          notificationConsumer-in-0:
+            consumer:
+              ackMode: COUNT
+              autoCommitOffset: false
+              autoCommitOnError: false
       bindings:
         notificationProducer-out-0:
           destination: notifications

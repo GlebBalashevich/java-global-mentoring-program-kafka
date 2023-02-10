@@ -11,6 +11,12 @@ spring:
         binder:
           brokers: kafka:9091
           autoCreateTopics: false
+        bindings:
+          notificationConsumer-in-0:
+            consumer:
+              ackMode: COUNT
+              autoCommitOffset: false
+              autoCommitOnError: false
       bindings:
         orderProducer-out-0:
           destination: orders
