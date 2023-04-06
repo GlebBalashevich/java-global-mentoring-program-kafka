@@ -1,5 +1,6 @@
 package com.epam.palmetto.service;
 
+import java.util.Map;
 import java.util.UUID;
 
 import org.assertj.core.api.Assertions;
@@ -8,6 +9,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.expression.Expression;
+import org.springframework.expression.ExpressionParser;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
@@ -50,6 +54,15 @@ class PalmettoServiceTest {
 
         Assertions.assertThatThrownBy(() -> palmettoService.updateCookingOrderStatus(orderId, orderStatusDto))
                 .isInstanceOf(PalmettoException.class);
+    }
+
+    @Test
+    void testTest() {
+        ExpressionParser expressionParser = new SpelExpressionParser();
+        Expression expression = expressionParser.parseExpression("{'Content-Type':'application/json'}");
+
+        Map map = expression.getValue(Map.class);
+        System.out.println(map);
     }
 
 }
